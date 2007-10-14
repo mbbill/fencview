@@ -3,7 +3,7 @@
 " Brief:        View a file in different encodings
 " Authors:      Ming Bai <mbbill AT gmail DOT com>,
 "               Wu Yongwei <wuyongwei AT gmail DOT com>
-" Last Change:  2007-07-02 00:21:23
+" Last Change:  2007-09-28 14:03:24
 " Version:      4.2
 " Licence:      LGPL
 "
@@ -35,7 +35,7 @@
 "                 firefox/IE.
 "               Options:
 "                 Set these value in vimrc to config this
-"                 plugin. Expmple:
+"                 plugin. Example:
 "                 let g:fencview_autodetect = 1
 "
 "                 "$FENCVIEW_TELLENC"
@@ -642,7 +642,7 @@ endfunction
 
 
 function! s:EditAutoEncoding(...) "{{{1
-    if s:disable_autodetection
+    if s:disable_autodetection || &buftype=='help'
         return
     endif
     if bufname(winnr())==s:FencWinName
@@ -857,7 +857,7 @@ function! s:FencProgressBar(percentage, string, char, barlen) "{{{1
 "   a:char       -- character to use as bar (suggest "#", "|" or "*")
 "   a:barlen     -- bar length in columns, use 0 to use window width
     if a:barlen==0
-        let barlen=winwidth(0)-strlen(a:string)-1-2-3-2
+        let barlen=winwidth(0)-strlen(a:string)-35
     else
         let barlen=a:barlen
     endif
@@ -1175,7 +1175,7 @@ function! s:FencHandleData() "{{{1
     endif
     for line in fbody
         let lnr+=1
-        call s:FencProgressBar(50*lnr/bodylen,' Processing... ','=',35)
+        call s:FencProgressBar(50*lnr/bodylen,' Processing... ','=',0)
         let ci=0
         let ch="\x01"
         while ch!=''
@@ -1409,7 +1409,7 @@ command! -nargs=* -complete=file FencAutoDetect call
 command! -nargs=+ -complete=file FencManualEncoding call
                                \ s:EditManualEncoding(<f-args>)
 
-if g:fencview_autodetect == 1
+if g:fencview_autodetect
     exec 'au BufRead ' . g:fencview_auto_patterns .
                 \' call s:EditAutoEncoding()'
     exec 'au BufWinEnter ' . g:fencview_auto_patterns .
