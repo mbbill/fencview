@@ -1416,4 +1416,4 @@ if g:fencview_autodetect
                 \' call s:CheckModelineFileEncoding()'
 endif
 
-" vim: set et ff=unix fdm=marker sts=4 sw=4 tw=64:
+" vim: set et fdm=marker sts=4 sw=4 tw=64:
