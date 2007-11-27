@@ -3,8 +3,8 @@
 " Brief:        View a file in different encodings
 " Authors:      Ming Bai <mbbill AT gmail DOT com>,
 "               Wu Yongwei <wuyongwei AT gmail DOT com>
-" Last Change:  2007-09-28 14:03:24
-" Version:      4.2
+" Last Change:  2007-11-27 21:51:33
+" Version:      4.3
 " Licence:      LGPL
 "
 "
@@ -684,7 +684,21 @@ function! s:EditAutoEncoding(...) "{{{1
         call s:FencDetectFileEncoding()
         return
     endif
-    let result=system($FENCVIEW_TELLENC . ' "' . filename . '"')
+    try
+        if has('gui_running')
+            if exists('$VIM_SYSTEM_HIDECONSOLE')
+                let vim_system_hideconsole_bak=$VIM_SYSTEM_HIDECONSOLE
+            else
+                let vim_system_hideconsole_bak=0
+            endif
+            let $VIM_SYSTEM_HIDECONSOLE=1
+        endif
+        let result=system($FENCVIEW_TELLENC . ' "' . filename . '"')
+    finally
+        if has('gui_running')
+            let $VIM_SYSTEM_HIDECONSOLE=vim_system_hideconsole_bak
+        endif
+    endtry
     let result=substitute(result, '\n$', '', '')
     if v:shell_error!=0
         echohl Error|echomsg iconv(result, g:legacy_encoding, &encoding)|echohl None
