@@ -3,8 +3,8 @@
 " Brief:        View a file in different encodings
 " Authors:      Ming Bai <mbbill AT gmail DOT com>,
 "               Wu Yongwei <wuyongwei AT gmail DOT com>
-" Last Change:  2007-11-27 21:51:33
-" Version:      4.3
+" Last Change:  2008-06-01 23:40:37
+" Version:      4.4
 " Licence:      LGPL
 "
 "
@@ -537,13 +537,13 @@ let s:cp949TopChars=[
 function! s:NormalizeEncodingName(enc) "{{{1
     if a:enc=='gbk'
         return 'cp936'
-    elseif has('win32') || has('win32unix') || has('win64')
+    elseif has('win32') || has('win32unix') || has('win64') || has('iconv')
         if a:enc=='gb2312'
             return 'cp936'
         elseif a:enc=='big5'
             return 'cp950'
         endif
-    else " Unix
+    else " Unix and w/o iconv
         if a:enc=='gb2312'
             return 'euc-cn'
         endif
@@ -693,7 +693,7 @@ function! s:EditAutoEncoding(...) "{{{1
             endif
             let $VIM_SYSTEM_HIDECONSOLE=1
         endif
-        let result=system($FENCVIEW_TELLENC . ' "' . filename . '"')
+        let result=system($FENCVIEW_TELLENC . ' ' . shellescape(filename))
     finally
         if has('gui_running')
             let $VIM_SYSTEM_HIDECONSOLE=vim_system_hideconsole_bak
@@ -1397,7 +1397,8 @@ endfunction
 if !exists('g:legacy_encoding')
     if &encoding!~?'^utf' && &encoding!~?'^ucs'
         let g:legacy_encoding=&encoding
-    elseif &fileencodings=~?'^ucs-bom,utf-8,[^,]\+'
+    elseif &fileencodings=~?'^ucs-bom,utf-8,[^,]\+' &&
+                \!(has('unix') && !has('win32unix'))
         let g:legacy_encoding=matchstr(&fileencodings, '^ucs-bom,utf-8,\zs[^,]\+')
     endif
     if !exists('g:legacy_encoding') || g:legacy_encoding=='default'
