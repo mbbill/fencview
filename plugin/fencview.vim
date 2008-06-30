@@ -3,8 +3,8 @@
 " Brief:        View a file in different encodings
 " Authors:      Ming Bai <mbbill AT gmail DOT com>,
 "               Wu Yongwei <wuyongwei AT gmail DOT com>
-" Last Change:  2008-06-01 23:40:37
-" Version:      4.4
+" Last Change:  2008-06-30 17:18:49
+" Version:      4.5
 " Licence:      LGPL
 "
 "
@@ -90,6 +90,14 @@
 if v:version < 700
      finish
 endif
+
+fun s:escape(name)
+  " shellescape() was added by patch 7.0.111
+  if exists("*shellescape")
+    return shellescape(a:name)
+  endif
+  return "'" . a:name . "'"
+endfun
 
 " variable definition{{{1
 if !exists('g:fencview_autodetect')
@@ -693,7 +701,7 @@ function! s:EditAutoEncoding(...) "{{{1
             endif
             let $VIM_SYSTEM_HIDECONSOLE=1
         endif
-        let result=system($FENCVIEW_TELLENC . ' ' . shellescape(filename))
+        let result=system($FENCVIEW_TELLENC . ' ' . s:escape(filename))
     finally
         if has('gui_running')
             let $VIM_SYSTEM_HIDECONSOLE=vim_system_hideconsole_bak
