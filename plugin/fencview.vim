@@ -593,12 +593,9 @@ function! s:DetectHtmlEncoding() " {{{1
     normal m`
     normal gg
     if search('\c<meta http-equiv=\("\?\)Content-Type\1 content="text/html; charset=[-A-Za-z0-9_]\+">')!=0
-        let reg_bak=@"
-        normal y$
-        let charset=matchstr(@", 'text/html; charset=\zs[-A-Za-z0-9_]\+')
+        let charset=matchstr(getline('.'), 'text/html; charset=\zs[-A-Za-z0-9_]\+', col('.') - 1)
         let charset=s:ConvertHtmlEncoding(charset)
         normal ``
-        let @"=reg_bak
         if &fileencodings==''
           let auto_encodings=','.&encoding.','
         else
