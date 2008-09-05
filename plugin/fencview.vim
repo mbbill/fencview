@@ -3,7 +3,7 @@
 " Brief:        View a file in different encodings
 " Authors:      Ming Bai <mbbill AT gmail DOT com>,
 "               Wu Yongwei <wuyongwei AT gmail DOT com>
-" Last Change:  2008-06-30 17:18:49
+" Last Change:  2008-09-05 22:33:06
 " Version:      4.5
 " Licence:      LGPL
 "
