@@ -3,7 +3,7 @@
 " Brief:        View a file in different encodings
 " Authors:      Ming Bai <mbbill AT gmail DOT com>,
 "               Wu Yongwei <wuyongwei AT gmail DOT com>
-" Last Change:  2008-09-05 22:33:06
+" Last Change:  2008-10-09 20:33:23
 " Version:      4.5
 " Licence:      LGPL
 "
@@ -658,7 +658,7 @@ function! s:EditAutoEncoding(...) "{{{1
         return
     endif
     if !has('iconv')
-        echohl Error | echomsg "\"+iconv\" feature not found, see NOTE #1 in fencview.vim" | echohl None
+        echohl Error | echomsg "\"+iconv\" feature not found, see Tip #1 in fencview.vim" | echohl None
         return
     endif
     if a:0>1
