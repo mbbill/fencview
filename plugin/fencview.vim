@@ -3,7 +3,7 @@
 " Brief:        View a file in different encodings
 " Authors:      Ming Bai <mbbill AT gmail DOT com>,
 "               Wu Yongwei <wuyongwei AT gmail DOT com>
-" Last Change:  2008-12-04 22:31:03
+" Last Change:  2008-12-05 00:54:26
 " Version:      4.6
 " Licence:      LGPL
 "
@@ -67,8 +67,8 @@
 "                 "g:fencview_checklines"
 "                   It checks first and last several lines of
 "                   current file, so don't set the value too
-"                   large.
-"                   (default: 10)
+"                   large. Set to 0 if you want to check every
+"                   line." (default: 10)
 "
 " Tip:          1 "+iconv" feature is needed. If you are
 "                 using Microsoft Windows, make sure you
@@ -91,7 +91,7 @@ if v:version < 700
      finish
 endif
 
-fun s:escape(name)
+fun! s:escape(name)
   " shellescape() was added by patch 7.0.111
   if exists("*shellescape")
     return shellescape(a:name)
@@ -869,43 +869,17 @@ function! FencMenuSel(fen_name) "{{{1
 endfunction
 
 
-function! s:FencProgressBar(percentage, string, char, barlen) "{{{1
+function! s:FencProgressBar(percentage, string) "{{{1
 "-----------------------------------------
-"   a:percentage -- percent of bar complete
+"   a:percentage -- percent
 "   a:string     -- leading description string (empty acceptable)
-"   a:char       -- character to use as bar (suggest "#", "|" or "*")
-"   a:barlen     -- bar length in columns, use 0 to use window width
-    if a:barlen==0
-        let barlen=winwidth(0)-strlen(a:string)-35
-    else
-        let barlen=a:barlen
-    endif
-    if barlen<=0
-        let barlen=1
-    endif
-    let chrs=barlen*a:percentage/50
-    let chrx=barlen-chrs
-    let bar=a:string."["
-    while chrs
-        let bar=bar.a:char
-        let chrs=chrs-1
-    endwhile
-    while chrx
-        let bar=bar." "
-        let chrx=chrx-1
-    endwhile
-    let bar=bar."] "
-    if a:percentage < 10
-        let bar=bar." "
-    endif
-    let bar=bar.a:percentage."%"." (ctrl+c to stop)"
-
     let cmdheight=&cmdheight
     if cmdheight < 2
         let &cmdheight=2
     endif
-    echo bar
+    echo a:string." ".a:percentage."% (ctrl+c to stop)"
     let &cmdheight=cmdheight
+    return
 endfunction
 
 
@@ -1179,7 +1153,7 @@ function! s:FencHandleData() "{{{1
         return
     endif
     "check first and last several lines
-    if len(A_fbody)<(g:fencview_checklines*2)
+    if len(A_fbody)<(g:fencview_checklines*2) || g:fencview_checklines==0
         let fbody=A_fbody
     else
         let fbody=A_fbody[:(g:fencview_checklines-1)]+A_fbody[(0-g:fencview_checklines):]
@@ -1197,7 +1171,7 @@ function! s:FencHandleData() "{{{1
     endif
     for line in fbody
         let lnr+=1
-        call s:FencProgressBar(50*lnr/bodylen,' Processing... ','=',0)
+        call s:FencProgressBar(100*lnr/bodylen,' Processing... ',)
         let ci=0
         let ch="\x01"
         while ch!=''
@@ -1390,7 +1364,8 @@ function! s:FencDetectFileEncoding() "{{{1
     if s:FencRes!=''
         try
             let s:disable_autodetection=2
-            if s:FencRes=='latin1' && &fileencoding=='utf-8'
+            "if s:FencRes=='latin1' && &fileencoding=='utf-8'
+            if s:FencRes=='latin1'
                 exec "edit"
             else
                 exec "edit ++enc=".s:FencRes
