@@ -3,7 +3,7 @@
 " Brief:        View a file in different encodings
 " Authors:      Ming Bai <mbbill AT gmail DOT com>,
 "               Wu Yongwei <wuyongwei AT gmail DOT com>
-" Last Change:  2008-12-04 20:46:11
+" Last Change:  2008-12-04 22:31:03
 " Version:      4.6
 " Licence:      LGPL
 "
@@ -879,6 +879,9 @@ function! s:FencProgressBar(percentage, string, char, barlen) "{{{1
         let barlen=winwidth(0)-strlen(a:string)-35
     else
         let barlen=a:barlen
+    endif
+    if barlen<=0
+        let barlen=1
     endif
     let chrs=barlen*a:percentage/50
     let chrx=barlen-chrs
