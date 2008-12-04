@@ -3,8 +3,8 @@
 " Brief:        View a file in different encodings
 " Authors:      Ming Bai <mbbill AT gmail DOT com>,
 "               Wu Yongwei <wuyongwei AT gmail DOT com>
-" Last Change:  2008-10-09 20:33:23
-" Version:      4.5
+" Last Change:  2008-12-04 20:46:11
+" Version:      4.6
 " Licence:      LGPL
 "
 "
@@ -1387,7 +1387,11 @@ function! s:FencDetectFileEncoding() "{{{1
     if s:FencRes!=''
         try
             let s:disable_autodetection=2
-            exec "edit ++enc=".s:FencRes
+            if s:FencRes=='latin1' && &fileencoding=='utf-8'
+                exec "edit"
+            else
+                exec "edit ++enc=".s:FencRes
+            endif
         finally
             let s:disable_autodetection=0
         endtry
