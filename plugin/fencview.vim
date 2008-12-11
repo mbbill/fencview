@@ -3,7 +3,7 @@
 " Brief:        View a file in different encodings
 " Authors:      Ming Bai <mbbill AT gmail DOT com>,
 "               Wu Yongwei <wuyongwei AT gmail DOT com>
-" Last Change:  2008-12-05 00:54:26
+" Last Change:  2008-12-11 22:01:14
 " Version:      4.6
 " Licence:      LGPL
 "
@@ -1358,14 +1358,13 @@ function! s:FencDetectFileEncoding() "{{{1
         endif
         " last
         if s:FencResCount==0
-            let s:FencRes="latin1"
+            let s:FencRes="ascii"
         endif
     endif
     if s:FencRes!=''
         try
             let s:disable_autodetection=2
-            "if s:FencRes=='latin1' && &fileencoding=='utf-8'
-            if s:FencRes=='latin1'
+            if s:FencRes=='ascii'
                 exec "edit"
             else
                 exec "edit ++enc=".s:FencRes
