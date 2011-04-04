@@ -3,8 +3,8 @@
 " Brief:        View a file in different encodings
 " Authors:      Ming Bai <mbbill AT gmail DOT com>,
 "               Wu Yongwei <wuyongwei AT gmail DOT com>
-" Last Change:  2008-12-11 22:01:14
-" Version:      4.6
+" Last Change:  2011-04-04 15:21:08
+" Version:      4.7
 " Licence:      LGPL
 "
 "
@@ -574,6 +574,10 @@ endfunction
 
 
 function! s:CheckModelineFileEncoding() "{{{1
+    if exists("b:fencview_modeline_checked")
+        return
+    endif
+    let b:fencview_modeline_checked=1
     if &modified && &fileencoding!=''
         if s:disable_autodetection<2
             let Syn=&syntax
