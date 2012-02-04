@@ -3,8 +3,8 @@
 " Brief:        View a file in different encodings
 " Authors:      Ming Bai <mbbill AT gmail DOT com>,
 "               Wu Yongwei <wuyongwei AT gmail DOT com>
-" Last Change:  2012-02-04 16:00:37
-" Version:      4.7
+" Last Change:  2012-02-04 19:18:37
+" Version:      4.8
 " Licence:      LGPL
 "
 "
