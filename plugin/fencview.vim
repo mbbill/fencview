@@ -3,7 +3,7 @@
 " Brief:        View a file in different encodings
 " Authors:      Ming Bai <mbbill AT gmail DOT com>,
 "               Wu Yongwei <wuyongwei AT gmail DOT com>
-" Last Change:  2011-04-04 15:21:08
+" Last Change:  2012-02-04 16:00:37
 " Version:      4.7
 " Licence:      LGPL
 "
@@ -90,6 +90,10 @@
 if v:version < 700
      finish
 endif
+
+" Change cpoptions to make sure line continuation works
+let s:cpo_save=&cpo
+set cpo&vim
 
 fun! s:escape(name)
   " shellescape() was added by patch 7.0.111
@@ -1209,7 +1213,7 @@ function! s:FencDetectFileEncoding() "{{{1
         return
     endif
     call s:FencInitVar()
-    
+
     call s:FencHandleData()
 
     " VimCrypt
@@ -1340,5 +1344,8 @@ if g:fencview_autodetect
     exec 'au BufWinEnter ' . g:fencview_auto_patterns .
                 \' call s:CheckModelineFileEncoding()'
 endif
+
+" Restore cpoptions
+let &cpo=s:cpo_save
 
 " vim: set et fdm=marker sts=4 sw=4 tw=64:
