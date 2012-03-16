@@ -3,7 +3,7 @@
 " Brief:        View a file in different encodings
 " Authors:      Ming Bai <mbbill AT gmail DOT com>,
 "               Wu Yongwei <wuyongwei AT gmail DOT com>
-" Last Change:  2012-02-04 19:18:37
+" Last Change:  2012-03-17 22:18:37
 " Version:      4.8
 " Licence:      LGPL
 "
@@ -706,7 +706,14 @@ function! s:EditAutoEncoding(...) "{{{1
             endif
             let $VIM_SYSTEM_HIDECONSOLE=1
         endif
+        if exists('+shellslash')
+            let shellslash_save = &shellslash
+            set noshellslash
+        endif
         let result=system($FENCVIEW_TELLENC . ' ' . s:escape(filename))
+        if exists('+shellslash')
+            let &shellslash = shellslash_save
+        endif
     finally
         if has('gui_running')
             let $VIM_SYSTEM_HIDECONSOLE=vim_system_hideconsole_bak
