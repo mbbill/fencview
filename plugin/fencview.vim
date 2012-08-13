@@ -55,7 +55,7 @@
 "                 "g:fencview_autodetect"
 "                   Auto detect file encoding when you open a
 "                   file.
-"                   (default: 1)
+"                   (default: 0)
 "
 "                 "g:fencview_auto_patterns"
 "                   Set this variable in your vimrc to decide
@@ -104,7 +104,7 @@ endfun
 
 " variable definition{{{1
 if !exists('g:fencview_autodetect')
-    let g:fencview_autodetect = 1
+    let g:fencview_autodetect = 0
 endif
 if !exists('g:fencview_auto_patterns')
     let g:fencview_auto_patterns='*.txt,*.htm{l\=}'
