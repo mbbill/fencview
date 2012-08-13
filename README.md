@@ -1,5 +1,7 @@
+# Link to vim.org
 http://www.vim.org/scripts/script.php?script_id=1708
 
+# Description
 Have you ever met that after opening a text file with some kind of encoding you got a bunch of unreadable mess? 
 If so, you need FencView.vim. 
 
@@ -13,3 +15,19 @@ As we know, take Chinese for example, the occurrence frequency of every characte
 The user manual is embeded in fencview.vim, refer to it if you'd like to custmize this script.
 
 If you encounter a file that fencview can not handle, you're more than welcome to send it to me in order to improve the algrithm, but take care of the sensitive data before you do that.
+
+# Install
+Simply put fencview.vim into 'plugin' directory and that's all.
+
+# How to use
+Basically, you need this plugin only when you ran into some messy code. In this case you need fencview to auto detect the file encoding. Either click the menu entry:
+"Tools->Encoding->Auto Detect"
+or use this command:
+:FencAutoDetect
+and probably that's all.
+
+If it doesn't work, you may try to 'guess' the file encoding by yourself.
+The menu entry "Tools->Encoding" or the :FencView command will help you do that.
+
+If you need fencview to detect encoding of every file, set g:fencview_autodetect option to 1 in your vimrc. This will slightly impact loading time, so it is disabled by default.
+
