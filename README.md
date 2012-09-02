@@ -20,7 +20,7 @@ If you encounter a file that *fencview.vim* can not handle, you're more than wel
 Simply put **[fencview.vim](https://github.com/mbbill/fencview/blob/master/plugin/fencview.vim)** into *plugin* directory and that's all.  
 For windows users, you need to put **iconv.dll** ([download link](https://sites.google.com/site/mbbill/iconv.dll)) into one of your directory in %path%.
 
-### How to use
+### Usage
 Basically, you want to use this plugin only when you ran into some messy code. In this case you need *fencview.vim* to auto detect the file encoding. Either click the menu entry: `Tools->Encoding->Auto Detect` or use this command: `:FencAutoDetect` and probably that's all.
 
 If it doesn't work, you may try to *guess* the file encoding by yourself. The menu entry `Tools->Encoding` or the `:FencView` command will help you do that.
