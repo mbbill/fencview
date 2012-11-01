@@ -1122,6 +1122,9 @@ function! s:FencHandleData() "{{{1
         return
     endif
     for line in fbody
+        if len(line) > 500 "the line is too long.
+            let line = line[:500]
+        endif
         let lnr+=1
         call s:FencProgressBar(100*lnr/bodylen,' Processing... ',)
         let ci=0
