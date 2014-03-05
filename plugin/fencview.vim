@@ -3,7 +3,7 @@
 " Brief:        View a file in different encodings
 " Authors:      Ming Bai <mbbill AT gmail DOT com>,
 "               Wu Yongwei <wuyongwei AT gmail DOT com>
-" Version:      4.8
+" Version:      4.9
 " Licence:      LGPL
 "
 "
@@ -100,6 +100,16 @@ fun! s:escape(name)
     return shellescape(a:name)
   endif
   return "'" . a:name . "'"
+endfun
+
+fun! s:convert(name)
+  " Patch 7.4.122 converts the file name encoding automatically
+  if has('win32') &&
+        \(v:version < 704 || (v:version == 704 && !has('patch122')))
+    return iconv(a:name, &encoding, g:legacy_encoding)
+  else
+    return a:name
+  endif
 endfun
 
 " variable definition{{{1
@@ -673,10 +683,10 @@ function! s:EditAutoEncoding(...) "{{{1
         return
     endif
     if a:0==1
-        let filename=iconv(a:1, &encoding, g:legacy_encoding)
+        let filename=s:convert(a:1)
         let filename_e=' '.a:1
     else
-        let filename=iconv(expand('%:p'), &encoding, g:legacy_encoding)
+        let filename=s:convert(expand('%:p'))
         let filename_e=''
     endif
     if a:0==1
