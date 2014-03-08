@@ -883,13 +883,7 @@ function! FencMenuSel(fen_name) "{{{1
     if bufname(winnr())==s:FencWinName
         return
     endif
-    try
-        let s:disable_autodetection=2
-        exec "edit ++enc=".a:fen_name
-    finally
-        let s:disable_autodetection=0
-    endtry
-
+    call s:EditManualEncoding(a:fen_name)
 endfunction
 
 
@@ -1362,6 +1356,8 @@ if g:fencview_autodetect
                 \' call s:EditAutoEncoding()'
     exec 'au BufWinEnter ' . g:fencview_auto_patterns .
                 \' call s:CheckModelineFileEncoding()'
+    exec 'au BufUnload ' . g:fencview_auto_patterns .
+                \' unlet! b:fencview_modeline_checked'
 endif
 
 " Restore cpoptions
